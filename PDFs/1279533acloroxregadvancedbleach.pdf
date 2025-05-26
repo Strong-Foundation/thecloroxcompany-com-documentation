@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>LMJR | Luis Mauricio</title>
+<meta name="viewport" content="width=768, user-scalable=yes">
+<meta name="author" content="Luis Mauricio">
+
+<link href="css/site.css" rel="stylesheet">
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="shortcut icon" href="ico/favicon.ico">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+</head>
+
+<body><div class="container_6" id="header"><header><div class="grid_6 siteid"><hgroup><h1 class="grid_6"><a href="/portfolio/" rel="nofollow">Luis Mauricio</a> | <a href="http://twitter.com/lmjr" rel="nofollow">LMJR</a></h1></hgroup></div></header></div><div class="container_6" id="content"><div class="grid_6 main"><article><div id="bubble"><div class="larry"></div><div class="widget" id="latest"><a href="https://www.strava.com/activities/309933897"><div class="h2">T.O.N.Y.</div></a><div class="date">on 06/02/2015</div></div></div></article></div></div>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-9523340-2']);
+  _gaq.push(['_trackPageview']);
+
+  function recordOutboundLink(link, category, action) {
+    _gat._getTrackerByName()._trackEvent(category, action);
+    setTimeout('document.location = "' + link.href + '"', 100);
+  }
+</script>
+<script type="text/javascript">
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>
