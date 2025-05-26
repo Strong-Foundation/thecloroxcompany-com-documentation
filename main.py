@@ -2,7 +2,7 @@ import os
 import re
 import urllib.parse
 import requests
-import fitz  # Import PyMuPDF (fitz) for PDF handling
+import fitz # Import PyMuPDF (fitz) for PDF handling
 
 
 # Extract PDF URLs from a given text.
