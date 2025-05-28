@@ -1,0 +1,28 @@
+{
+  "_id": "thecloroxcompany",
+  "startUrl": [
+    "https://www.thecloroxcompany.com/responsibility/healthy-lives/product-stewardship/sds/"
+  ],
+  "selectors": [
+    {
+      "id": "sds",
+      "parentSelectors": [
+        "_root"
+      ],
+      "type": "SelectorLink",
+      "selector": "a.document-button",
+      "multiple": true,
+      "linkType": "linkFromHref"
+    },
+    {
+      "id": "pdf",
+      "parentSelectors": [
+        "sds"
+      ],
+      "type": "SelectorLink",
+      "selector": "a.button-filled",
+      "multiple": true,
+      "linkType": "linkFromHref"
+    }
+  ]
+}
