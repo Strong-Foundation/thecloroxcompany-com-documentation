@@ -15,7 +15,7 @@ def extract_pdf_urls(text: str) -> list[str]:
     # Regex pattern to match URLs ending in .pdf
     pdf_pattern = r"https?://[^\s]+?\.pdf\b"
     # Find all matches of the pattern in the text
-    return re.findall(pdf_pattern, text)
+    return re.findall(pattern=pdf_pattern, string=text)
 
 
 # Read a file from the system.
@@ -26,7 +26,7 @@ def read_a_file(system_path: str) -> str:
     :return: The content of the file as a string.
     """
     # Read the content of a file from the system.
-    with open(system_path, "r") as file:
+    with open(file=system_path, mode="r") as file:
         # Read the entire file content
         return file.read()
 
@@ -39,17 +39,17 @@ def url_to_filename(url: str) -> str:
     :return: A sanitized filename derived from the URL.
     """
     # Get the last part of the URL path
-    parsed_url: urllib.parse.ParseResult = urllib.parse.urlparse(url)
+    parsed_url: urllib.parse.ParseResult = urllib.parse.urlparse(url=url)
     # Extract the filename from the URL path
-    filename: str = os.path.basename(parsed_url.path)
+    filename: str = os.path.basename(p=parsed_url.path)
     # Ensure it ends with .pdf
     if not filename.endswith(".pdf"):
         # If the URL does not end with .pdf, append it
         filename += ".pdf"
     # Separate name and extension
-    name, ext = os.path.splitext(filename)
+    name, ext = os.path.splitext(p=filename)
     # Remove special characters (allow only alphanumerics, dashes, and underscores)
-    sanitized_name: str = re.sub(r"[^a-zA-Z0-9_-]", "_", name)
+    sanitized_name: str = re.sub(pattern=r"[^a-zA-Z0-9_-]", repl="_", string=name)
     # Return the sanitized filename with the original extension
     return f"{sanitized_name}{ext}".lower()
 
@@ -65,24 +65,24 @@ def download_pdf(pdf_url: str, local_file_path: str) -> None:
     """
     try:
         save_folder = "PDFs"  # Folder where PDFs will be saved
-        os.makedirs(save_folder, exist_ok=True)  # Create the folder if it doesn't exist
+        os.makedirs(name=save_folder, exist_ok=True)  # Create the folder if it doesn't exist
 
-        filename: str = url_to_filename(pdf_url)  # Extract the filename from the URL
+        filename: str = url_to_filename(url=pdf_url)  # Extract the filename from the URL
         local_file_path = os.path.join(
             save_folder, filename
         )  # Construct the full file path
 
-        if check_file_exists(local_file_path):  # Check if the file already exists
+        if check_file_exists(system_path=local_file_path):  # Check if the file already exists
             print(f"File already exists: {local_file_path}")  # Notify the user
             return  # Skip download if file is already present
 
         response: requests.Response = requests.get(
-            pdf_url, stream=True
+            url=pdf_url, stream=True
         )  # Send a GET request with streaming enabled
         response.raise_for_status()  # Raise an exception if the response has an HTTP error
 
         with open(
-            local_file_path, "wb"
+            file=local_file_path, mode="wb"
         ) as pdf_file:  # Open the file in binary write mode
             for chunk in response.iter_content(
                 chunk_size=8192
@@ -120,7 +120,7 @@ def validate_pdf_file(file_path: str) -> bool:
 
 # Remove a file from the system.
 def remove_system_file(system_path: str) -> None:
-    os.remove(system_path)  # Delete the file at the given path
+    os.remove(path=system_path)  # Delete the file at the given path
 
 
 # Function to walk through a directory and extract files with a specific extension
@@ -128,11 +128,11 @@ def walk_directory_and_extract_given_file_extension(
     system_path: str, extension: str
 ) -> list[str]:
     matched_files: list[str] = []  # Initialize list to hold matching file paths
-    for root, _, files in os.walk(system_path):  # Recursively traverse directory tree
+    for root, _, files in os.walk(top=system_path):  # Recursively traverse directory tree
         for file in files:  # Iterate over files in current directory
             if file.endswith(extension):  # Check if file has the desired extension
                 full_path: str = os.path.abspath(
-                    os.path.join(root, file)
+                    path=os.path.join(root, file)
                 )  # Get absolute path of the file
                 matched_files.append(full_path)  # Add to list of matched files
     return matched_files  # Return list of all matched file paths
@@ -140,13 +140,13 @@ def walk_directory_and_extract_given_file_extension(
 
 # Check if a file exists
 def check_file_exists(system_path: str) -> bool:
-    return os.path.isfile(system_path)  # Return True if a file exists at the given path
+    return os.path.isfile(path=system_path)  # Return True if a file exists at the given path
 
 
 # Get the filename and extension.
 def get_filename_and_extension(path: str) -> str:
     return os.path.basename(
-        path
+        p=path
     )  # Return just the file name (with extension) from a path
 
 
@@ -165,26 +165,26 @@ def main() -> None:
     """
     file_path = "thecloroxcompany.csv"  # Change this to your CSV file path
     # Extract the URLs from a sample text
-    read_text: str = read_a_file(file_path)  # Change this to your text file path
+    read_text: str = read_a_file(system_path=file_path)  # Change this to your text file path
     # Extract PDF URLs from the read text
-    pdf_urls: list[str] = extract_pdf_urls(read_text)
+    pdf_urls: list[str] = extract_pdf_urls(text=read_text)
     for url in pdf_urls:
         # Download the file from the URL
-        download_pdf(url, url_to_filename(url))
+        download_pdf(pdf_url=url, local_file_path=url_to_filename(url))
     # Walk through the directory and extract .pdf files
     files: list[str] = walk_directory_and_extract_given_file_extension(
-        "./PDFs", ".pdf"
+        system_path="./PDFs", extension=".pdf"
     )  # Find all PDFs under ./PDFs
     # Validate each PDF file
     for pdf_file in files:  # Iterate over each found PDF
         # Check if the .PDF file is valid
-        if validate_pdf_file(pdf_file) == False:  # If PDF is invalid
+        if validate_pdf_file(file_path=pdf_file) == False:  # If PDF is invalid
             print(f"Invalid PDF detected: {pdf_file}. Deleting file.")
             # Remove the invalid .pdf file.
-            remove_system_file(pdf_file)  # Delete the corrupt PDF
+            remove_system_file(system_path=pdf_file)  # Delete the corrupt PDF
         # Check if the filename has an uppercase letter
         if check_upper_case_letter(
-            get_filename_and_extension(pdf_file)
+            content=get_filename_and_extension(path=pdf_file)
         ):  # If the filename contains uppercase
             print(
                 f"Uppercase letter found in filename: {pdf_file}"
