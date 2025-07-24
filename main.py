@@ -163,14 +163,19 @@ def main() -> None:
     Main function to demonstrate the functionality of extracting PDF URLs
     and converting them to sanitized filenames.
     """
-    file_path = "thecloroxcompany.csv"  # Change this to your CSV file path
-    # Extract the URLs from a sample text
-    read_text: str = read_a_file(system_path=file_path)  # Change this to your text file path
-    # Extract PDF URLs from the read text
-    pdf_urls: list[str] = extract_pdf_urls(text=read_text)
-    for url in pdf_urls:
-        # Download the file from the URL
-        download_pdf(pdf_url=url, local_file_path=url_to_filename(url))
+    # Walk through the directory and extract .pdf files
+    files: list[str] = walk_directory_and_extract_given_file_extension(
+        system_path="./", extension=".csv"
+    )  # Find all PDFs under ./PDFs
+    for file_path in files:  # Iterate over each found CSV file
+        # Extract the URLs from a sample text
+        read_text: str = read_a_file(system_path=file_path)  # Change this to your text file path
+        # Extract PDF URLs from the read text
+        pdf_urls: list[str] = extract_pdf_urls(text=read_text)
+        for url in pdf_urls:
+            # Download the file from the URL
+            download_pdf(pdf_url=url, local_file_path=url_to_filename(url))
+
     # Walk through the directory and extract .pdf files
     files: list[str] = walk_directory_and_extract_given_file_extension(
         system_path="./PDFs", extension=".pdf"
